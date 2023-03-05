@@ -9,7 +9,7 @@ namespace Tests
     public static void TestEncryptDecrypt()
     {
       var random = new Random();
-      const int iterations = 10;
+      const int iterations = 100;
 
       for (int i = 0; i < iterations; i++)
       {
