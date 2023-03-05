@@ -4,9 +4,13 @@ namespace simple_rc4
 {
   public static class RC4
   {
+    /// <summary>
+    /// 暗号化キーから256マスの変換テーブルSを作る
+    /// </summary>
+    /// <param name="key">暗号化キー</param>
+    /// <returns>変換テーブルS</returns>
     private static byte[] KSA(byte[] key)
     {
-      // key から256マスの変換テーブル S を作る
       byte[] S = new byte[256];
       for (int i = 0; i < 256; i++)
       {
@@ -23,9 +27,15 @@ namespace simple_rc4
       return S;
     }
 
+    /// <summary>
+    /// RC4暗号化アルゴリズムに基づいて、渡されたメッセージを暗号化または復号化します。
+    /// メッセージはバイト配列として渡され、復号化したテキストは文字列として返されます。
+    /// </summary>
+    /// <param name="data">暗号化または復号化するメッセージのバイト配列</param>
+    /// <param name="key">暗号化キーのバイト配列</param>
+    /// <returns>復号化されたテキスト</returns>
     private static List<byte> PRGA(byte[] S)
     {
-      // S を更新しながら1バイトずつ数字を吐き出すリストを返す
       List<byte> K = new();
       int i = 0;
       int j = 0;
@@ -41,30 +51,46 @@ namespace simple_rc4
       return K;
     }
 
-    public static byte[] Encrypt(byte[] data, byte[] key)
+    /// <summary>
+    /// RC4暗号化を行う関数
+    /// </summary>
+    /// <param name="data">暗号化対象文字列</param>
+    /// <param name="key">暗号化キー</param>
+    /// <returns>BASE64エンコードされた暗号された文字列</returns>
+    public static string Encrypt(string data, string key)
     {
-      // data がメッセージなら暗号化、暗号文なら復号化する
-      byte[] S = KSA(key);
+      byte[] _data = Encoding.UTF8.GetBytes(data);
+      byte[] _key = Encoding.UTF8.GetBytes(key);
+
+      byte[] S = KSA(_key);
       byte[] gen = PRGA(S).ToArray();
-      byte[] result = new byte[data.Length];
-      for (int i = 0; i < data.Length; i++)
+      byte[] result = new byte[_data.Length];
+      for (int i = 0; i < _data.Length; i++)
       {
-        result[i] = (byte)(data[i] ^ gen[i]);
+        result[i] = (byte)(_data[i] ^ gen[i]);
       }
-      return result;
+      return Convert.ToBase64String(result);
     }
 
-    public static byte[] Decrypt(byte[] data, byte[] key)
+    /// <summary>
+    /// RC4暗号化されたデータを復号する関数
+    /// </summary>
+    /// <param name="data">BASE64エンコードされた暗号化されたデータ</param>
+    /// <param name="key">暗号化キー</param>
+    /// <returns>復元されたデータ</returns>
+    public static string Decrypt(string data, string key)
     {
-      // data がメッセージなら暗号化、暗号文なら復号化する
-      byte[] S = KSA(key);
+      byte[] _data = Convert.FromBase64String(data);
+      byte[] _key = Encoding.UTF8.GetBytes(key);
+
+      byte[] S = KSA(_key);
       byte[] gen = PRGA(S).ToArray();
-      byte[] result = new byte[data.Length];
-      for (int i = 0; i < data.Length; i++)
+      byte[] result = new byte[_data.Length];
+      for (int i = 0; i < _data.Length; i++)
       {
-        result[i] = (byte)(data[i] ^ gen[i]);
+        result[i] = (byte)(_data[i] ^ gen[i]);
       }
-      return result;
+      return Encoding.UTF8.GetString(result);
     }
   }
 }
