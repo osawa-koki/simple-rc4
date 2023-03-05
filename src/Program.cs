@@ -27,6 +27,8 @@ namespace simple_rc4
         return 1;
       }
 
+      Console.WriteLine("---------- ---------- ----------");
+
       // 暗号化して、復号する
       Console.WriteLine("key: {0}", key);
       Console.WriteLine("message: {0}", message);
@@ -35,7 +37,9 @@ namespace simple_rc4
       Console.WriteLine("ciphertext: {0}", ciphertext);
 
       string decrupted_message = RC4.Decrypt(ciphertext, key);
-      Console.WriteLine("message2: {0}", decrupted_message);
+      Console.WriteLine("message: {0}", decrupted_message);
+
+      Console.WriteLine("---------- ---------- ----------");
 
       return 0;
     }
