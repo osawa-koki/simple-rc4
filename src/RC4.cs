@@ -26,7 +26,7 @@ namespace simple_rc4
     private static List<byte> PRGA(byte[] S)
     {
       // S を更新しながら1バイトずつ数字を吐き出すリストを返す
-      List<byte> K = new List<byte>();
+      List<byte> K = new();
       int i = 0;
       int j = 0;
 
