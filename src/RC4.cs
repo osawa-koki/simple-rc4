@@ -4,7 +4,7 @@ namespace simple_rc4
 {
   public static class RC4
   {
-    public static byte[] KSA(byte[] key)
+    private static byte[] KSA(byte[] key)
     {
       // key から256マスの変換テーブル S を作る
       byte[] S = new byte[256];
@@ -23,7 +23,7 @@ namespace simple_rc4
       return S;
     }
 
-    public static List<byte> PRGA(byte[] S)
+    private static List<byte> PRGA(byte[] S)
     {
       // S を更新しながら1バイトずつ数字を吐き出すリストを返す
       List<byte> K = new List<byte>();
