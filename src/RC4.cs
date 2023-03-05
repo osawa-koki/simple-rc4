@@ -17,9 +17,7 @@ namespace simple_rc4
       for (int i = 0; i < 256; i++)
       {
         j = (j + S[i] + key[i % key.Length]) % 256;
-        byte temp = S[i];
-        S[i] = S[j];
-        S[j] = temp;
+        (S[j], S[i]) = (S[i], S[j]);
       }
 
       return S;
@@ -36,9 +34,7 @@ namespace simple_rc4
       {
         i = (i + 1) % 256;
         j = (j + S[i]) % 256;
-        byte temp = S[i];
-        S[i] = S[j];
-        S[j] = temp;
+        (S[j], S[i]) = (S[i], S[j]);
         K.Add(S[(S[i] + S[j]) % 256]);
       }
 
